@@ -3,15 +3,24 @@ import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 
+import connectDB from "./config/db.js";
+
+import ticketRoutes from "./routes/TicketRoutes.js";
+
+import notFoundMiddleware from "./middleware/notFoundMiddleWare.js";
+import errorMiddleware from "./middleware/errorMiddleWare.js";
+
 dotenv.config();
+
+connectDB();
 
 const app = express();
 
 app.use(cors());
-app.use(express.json());
-app.use(morgan("dev"));
 
-const PORT = process.env.PORT || 8000;
+app.use(express.json());
+
+app.use(morgan("dev"));
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
@@ -20,13 +29,14 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+app.use("/api/tickets", ticketRoutes);
+
+app.use(notFoundMiddleware);
+
+app.use(errorMiddleware);
+
+const PORT = process.env.PORT || 8000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-app.use(
-  cors({
-    origin: "http://localhost:5174", // Client URL
-    credentials: true,
-  }),
-);
