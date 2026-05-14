@@ -7,8 +7,8 @@ import connectDB from "./config/db.js";
 
 import ticketRoutes from "./routes/ticketRoutes.js";
 
-import notFoundMiddleware from "./middleware/notFoundMiddleWare.js";
-import errorMiddleware from "./middleware/errorMiddleWare.js";
+import notFoundMiddleware from "./middleware/notFoundMiddleware.js";
+import errorMiddleware from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 
